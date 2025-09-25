@@ -1,0 +1,30 @@
+name: Track Contributions
+
+on:
+  push:
+    branches:
+      - main   # or whatever branches you want to track
+
+jobs:
+  update-contrib:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout contribution tracker
+        uses: actions/checkout@v4
+        with:
+          repository: yourusername/derkins-contrib-tracker
+          token: ${{ secrets.CONTRIB_TOKEN }} # personal access token with repo scope
+          path: tracker
+
+      - name: Update contributions log
+        run: |
+          echo "$(date --utc +'%Y-%m-%dT%H:%M:%SZ') - Commit from $GITHUB_REPOSITORY" >> tracker/contributions.log
+
+      - name: Commit and push
+        run: |
+          cd tracker
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git add contributions.log
+          git commit -m "Track contribution from $GITHUB_REPOSITORY"
+          git push
