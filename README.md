@@ -1,2 +1,2 @@
 # contributions
-Reflect my private contributions for work and get around Github's update that makes it look like I do nothing with code
+Repo to reflect automated commits designed and implemented by yours truly :) 
