@@ -1,0 +1,24 @@
+name: Daily Commit
+
+on:
+  schedule:
+    - cron: '0 12 * * *'  # runs every day at 12:00 UTC
+  workflow_dispatch:       # allows manual trigger
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update contributions log
+        run: |
+          echo "$(date --utc +'%Y-%m-%dT%H:%M:%SZ')" >> contributions.log
+
+      - name: Commit changes
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git add contributions.log
+          git commit -m "Automated commit"
+          git push
