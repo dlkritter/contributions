@@ -43,10 +43,16 @@ jobs:
         run: |
           COUNT=${{ steps.commit_count.outputs.commits }}
           for i in $(seq 1 $COUNT); do
-            echo "$(date --utc +'%Y-%m-%dT%H:%M:%SZ') commit $i" >> contributions.log
+            # Generate a random hash (6 characters from SHA256)
+            HASH=$(echo $RANDOM | sha256sum | cut -c1-6)
+            
+            # Append timestamp + hash to the log
+            echo "$(date --utc +'%Y-%m-%dT%H:%M:%SZ') - $HASH" >> contributions.log
+            
+            # Commit changes
             git config user.name "${{ github.actor }}"
             git config user.email "${{ github.actor }}@users.noreply.github.com"
             git add contributions.log
-            git commit -m "Automated commit $i of $COUNT"
+            git commit -m "Automated commit $HASH"
           done
           git push
