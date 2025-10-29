@@ -12,7 +12,7 @@ jobs:
       - name: Checkout contribution tracker
         uses: actions/checkout@v4
         with:
-          repository: yourusername/derkins-contrib-tracker
+          repository: dlkritter/contributions
           token: ${{ secrets.CONTRIB_TOKEN }} # personal access token with repo scope
           path: tracker
 
