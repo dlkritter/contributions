@@ -43,10 +43,9 @@ jobs:
         run: |
           COUNT=${{ steps.commit_count.outputs.commits }}
           for i in $(seq 1 $COUNT); do
-            # Generate a random hash (6 characters from SHA256)
+
             HASH=$(echo $RANDOM | sha256sum | cut -c1-6)
             
-            # Append timestamp + hash to the log
             echo "$(date --utc +'%Y-%m-%dT%H:%M:%SZ') - $HASH" >> contributions.log
             
             # Commit changes
